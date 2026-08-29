@@ -13,15 +13,5 @@ public class AgileTrackerApplication {
 		SpringApplication.run(AgileTrackerApplication.class, args);
 	}
 
-	// Simple CORS configuration for local frontend development
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:3000", "http://localhost:8000").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
-			}
-		};
-	}
 
 }
