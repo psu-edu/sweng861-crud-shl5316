@@ -1,4 +1,4 @@
-package com.sweng861.agile_tracker;
+package com.sweng861.AgileTracker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

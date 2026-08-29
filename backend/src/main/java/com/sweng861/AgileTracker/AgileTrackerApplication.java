@@ -1,4 +1,4 @@
-package com.sweng861.agile_tracker;
+package com.sweng861.AgileTracker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
