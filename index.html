@@ -12,6 +12,23 @@
 
 <img src="https://sweng861-bucket.s3.us-east-1.amazonaws.com/Self-Portrait.jpg"
      alt="Self Portrait"
-     style="max-width: 50%; border-radius: 8px;" />
+     style="width:300px;max-width:100%;height:auto;border-radius:8px;"
+     width="300" loading="lazy">
+
+</br>
+
+<form id="noteForm">
+  <label for="note" style="font-size:14px;display:block;margin-bottom:6px;">Add a short note:</label>
+  <input id="note" name="note" type="text" placeholder="Write something...">
+  <div style="margin-top:8px;">
+    <button type="submit">Print</button>
+  </div>
+</form>
+
+</br>
+
+<div id="output" style="margin-top:12px;font-size:14px;color:#333;"></div>
+
+<script src="scripts.js"></script>
 </body>
 </html>
