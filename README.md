@@ -46,7 +46,3 @@ Frontend (static)
 - Open frontend/index.html in a browser
 - serve with a static server, e.g. `npx http-server frontend`
 
-
-### Notes
-- CORS is enabled for local dev (http://localhost:3000 and http://localhost:8000).
-- Legacy /backend folder removed during restructure.
