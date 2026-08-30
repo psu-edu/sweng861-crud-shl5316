@@ -28,30 +28,31 @@
 
 Clone the repository to your local machine using Git:
 ```bash
-git clone https://github.com/{{your-username}}/sweng861-crud-shl5316.git
+git clone https://github.com/psu-edu/sweng861-crud-shl5316.git
 cd sweng861-crud-shl5316
 ```
 
 ### 2. Prerequisites
 - Java 21+ installed and JAVA_HOME set (verify with `java -version`).
-- Node/npm (optional) if you want a simple static server for the frontend (`npx http-server`).
+- Node/npm for the frontend (`npx http-server`).
 
 ### 3. Build & Run — macOS / Linux
 Make the Maven wrapper executable (one-time):
 ```bash
-chmod +x backend/mvnw
+cd backend/
+chmod +x ./mvnw
 ```
 Build the backend and run tests:
 ```bash
-./backend/mvnw clean install
+./mvnw clean install
 ```
 Run the app:
 ```bash
-./backend/mvnw spring-boot:run
+./mvnw spring-boot:run
 ```
 Build without tests:
 ```bash
-./backend/mvnw clean install -DskipTests
+./mvnw clean install -DskipTests
 ```
 Run the packaged jar after building:
 ```bash
@@ -61,12 +62,13 @@ java -jar backend/target/*.jar
 ### 4. Build & Run — Windows (PowerShell or CMD)
 Use the included Windows wrapper (no global Maven required):
 ```powershell
-backend\mvnw.cmd clean install
-backend\mvnw.cmd spring-boot:run
+cd backend
+.\mvnw.cmd clean install
+.\mvnw.cmd spring-boot:run
 ```
 Or run the packaged jar after build:
 ```powershell
-java -jar backend\target\*.jar
+java -jar .\target\*.jar
 ```
 
 ### 5. Frontend (cross-platform)
