@@ -25,24 +25,70 @@
 ## Getting Started
 
 ### 1. Clone the Repository
+
 Clone the repository to your local machine using Git:
 ```bash
-git clone [https://github.com/{{your-username}}/sweng861-crud-shl5316.git](https://github.com/{{your-username}}/sweng861-crud-shl5316.git)
+git clone https://github.com/{{your-username}}/sweng861-crud-shl5316.git
 cd sweng861-crud-shl5316
 ```
-### 2. Build the Project
-Run the following command to build the project:
+
+### 2. Prerequisites
+- Java 21+ installed and JAVA_HOME set (verify with `java -version`).
+- Node/npm (optional) if you want a simple static server for the frontend (`npx http-server`).
+
+### 3. Build & Run — macOS / Linux
+Make the Maven wrapper executable (one-time):
 ```bash
-mvn clean install
+chmod +x backend/mvnw
+```
+Build the backend and run tests:
+```bash
+./backend/mvnw clean install
+```
+Run the app:
+```bash
+./backend/mvnw spring-boot:run
+```
+Build without tests:
+```bash
+./backend/mvnw clean install -DskipTests
+```
+Run the packaged jar after building:
+```bash
+java -jar backend/target/*.jar
 ```
 
-### 3. Run the Application
-Backend (Spring Boot - Maven)
-```bash
-mvn -f agile-tracker spring-boot:run
+### 4. Build & Run — Windows (PowerShell or CMD)
+Use the included Windows wrapper (no global Maven required):
+```powershell
+backend\mvnw.cmd clean install
+backend\mvnw.cmd spring-boot:run
 ```
-Frontend (static)
+Or run the packaged jar after build:
+```powershell
+java -jar backend\target\*.jar
+```
 
-- Open frontend/index.html in a browser
-- serve with a static server, e.g. `npx http-server frontend`
+### 5. Frontend (cross-platform)
+Open the static frontend directly in a browser:
+- Open `frontend/index.html` in your browser (double-click), or
+Serve it with a simple static server (recommended):
+```bash
+npx http-server frontend -p 8000
+# then open http://localhost:8000
+```
 
+### 6. Quick verification
+- Backend health: with the backend running:
+```bash
+curl -sS http://localhost:8080/health
+# expected: { "status": "ok" }
+curl -sS http://localhost:8080/api/hello
+# expected: { "message": "Hello, World!" }
+```
+- Frontend image: serve frontend and open `http://localhost:8000` (or your S3 static site URL) and confirm the uploaded image loads.
+
+### Notes
+- Prefer using the Maven wrapper included in `backend/` to ensure reproducible builds across machines.
+- If you prefer system Maven, replace `./backend/mvnw` with `mvn -f backend` (Windows: `mvn -f backend`).
+- If serving the frontend from S3 (HTTPS), ensure your backend CORS and S3 CORS include the deployed origin to avoid browser CORS errors.
