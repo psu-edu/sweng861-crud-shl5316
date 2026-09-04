@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (loginButton) {
     loginButton.addEventListener('click', function () {
+      try { sessionStorage.setItem('preAuthPage', window.location.href); } catch (e) {}
       window.location.href = BACKEND_URL + '/oauth2/authorization/google';
     });
   }
@@ -56,6 +57,14 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(function (data) {
       if (data.authenticated) {
         renderLoggedIn(data);
+        try {
+          const pre = sessionStorage.getItem('preAuthPage');
+          if (pre && pre !== window.location.href) {
+            sessionStorage.removeItem('preAuthPage');
+            window.location.href = pre;
+            return;
+          }
+        } catch (e) {}
       } else {
         if (statusEl) statusEl.textContent = 'Not logged in';
       }
@@ -66,5 +75,12 @@ document.addEventListener('DOMContentLoaded', function () {
       setDisplay(userSection, 'none');
       setDisplay(profileImage, 'none');
       setDisplay(logoutButton, 'none');
+      try {
+        const pre = sessionStorage.getItem('preAuthPage');
+        if (pre && pre !== window.location.href) {
+          sessionStorage.removeItem('preAuthPage');
+          window.location.href = pre;
+        }
+      } catch (e) {}
     });
 });
