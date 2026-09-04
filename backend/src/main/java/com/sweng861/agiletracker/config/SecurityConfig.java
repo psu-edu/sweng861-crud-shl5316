@@ -33,10 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.ignoringRequestMatchers(
-                    new AntPathRequestMatcher("/logout"),
-                    new AntPathRequestMatcher("/api/**")
-                ))
+            .csrf().disable()
             .exceptionHandling(ex -> ex.authenticationEntryPoint(restAuthenticationEntryPoint()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/health", "/error", "/oauth2/**", "/login/oauth2/**").permitAll()
