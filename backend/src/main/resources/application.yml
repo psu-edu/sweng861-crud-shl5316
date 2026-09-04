@@ -1,6 +1,17 @@
 spring:
   application:
     name: agile-tracker
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/campus_scheduler}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: ${DB_DRIVER:org.postgresql.Driver}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: ${DB_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
   security:
     oauth2:
       client:
