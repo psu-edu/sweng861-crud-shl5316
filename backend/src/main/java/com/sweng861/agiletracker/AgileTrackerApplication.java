@@ -9,6 +9,4 @@ public class AgileTrackerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AgileTrackerApplication.class, args);
 	}
-
-
 }

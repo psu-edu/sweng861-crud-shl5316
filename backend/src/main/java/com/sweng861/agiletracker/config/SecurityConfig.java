@@ -4,6 +4,7 @@ import com.sweng861.agiletracker.service.CustomOAuth2UserService;
 import com.sweng861.agiletracker.service.CustomOidcUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,14 +21,14 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private static final String FRONTEND_URL =
-            "http://localhost:8080";
-
+    private final String frontendUrl;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOidcUserService customOidcUserService;
 
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService,
+    public SecurityConfig(@Value("${app.frontend-url:http://localhost:8000}") String frontendUrl,
+                          CustomOAuth2UserService customOAuth2UserService,
                           CustomOidcUserService customOidcUserService) {
+        this.frontendUrl = frontendUrl;
         this.customOAuth2UserService = customOAuth2UserService;
         this.customOidcUserService = customOidcUserService;
     }
@@ -40,7 +41,7 @@ public class SecurityConfig {
             .exceptionHandling(ex -> ex.authenticationEntryPoint(restAuthenticationEntryPoint()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                        "/", "/index.html", "/favicon.ico", "/scripts.js", "/health", "/error", "/oauth2/**", "/login/oauth2/**", "/logout", "/static/**"
+                        "/health", "/error", "/oauth2/**", "/login/oauth2/**", "/logout"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
@@ -53,7 +54,7 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl(FRONTEND_URL)
+                .logoutSuccessUrl(frontendUrl)
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .permitAll()
@@ -85,6 +86,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",
                 "http://localhost:8000",
+                frontendUrl,
                 "https://sweng861-bucket.s3.us-east-1.amazonaws.com"
         ));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -101,7 +103,7 @@ public class SecurityConfig {
         return (HttpServletRequest request,
                 HttpServletResponse response,
                 org.springframework.security.core.Authentication authentication) -> {
-            response.sendRedirect(FRONTEND_URL);
+            response.sendRedirect(frontendUrl);
         };
     }
 }

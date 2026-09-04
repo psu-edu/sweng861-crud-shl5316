@@ -72,23 +72,22 @@ java -jar .\target\*.jar
 ```
 
 ### 5. Frontend (cross-platform)
-Open the static frontend directly in a browser:
-- Open `frontend/index.html` in your browser (double-click), or
-Serve it with a simple static server (recommended):
+The UI lives in `/frontend` only. Run it separately from the API (Google login redirects back here, not to port 8080):
 ```bash
 npx http-server frontend -p 8000
 # then open http://localhost:8000
 ```
+Optional: `FRONTEND_URL` (default `http://localhost:8000`) controls the post-login and logout redirect. Google Cloud Console should still use `http://localhost:8080/login/oauth2/code/google` as the OAuth callback.
+
+Opening `frontend/index.html` as a file:// URL will not work for login (cookies and CORS).
 
 ### 6. Quick verification
-- Backend health: with the backend running:
+With backend on 8080 and frontend on 8000:
 ```bash
 curl -sS http://localhost:8080/health
 # expected: { "status": "ok" }
-curl -sS http://localhost:8080/api/hello
-# expected: { "message": "Hello, World!" }
 ```
-- Frontend image: serve frontend and open `http://localhost:8000` (or your S3 static site URL) and confirm the uploaded image loads.
+Open `http://localhost:8000`, sign in with Google, and confirm `/api/user` shows as authenticated.
 
 ### Notes
 - Prefer using the Maven wrapper included in `backend/` to ensure reproducible builds across machines.
