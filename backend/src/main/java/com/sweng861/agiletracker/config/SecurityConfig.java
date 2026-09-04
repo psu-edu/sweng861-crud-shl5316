@@ -35,7 +35,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .exceptionHandling(ex -> ex.authenticationEntryPoint(restAuthenticationEntryPoint()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/health", "/error", "/oauth2/**", "/login/oauth2/**", "/logout").permitAll()
+                .requestMatchers(
+                        "/", "/index.html", "/favicon.ico", "/scripts.js", "/health", "/error", "/oauth2/**", "/login/oauth2/**", "/logout", "/static/**"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2
