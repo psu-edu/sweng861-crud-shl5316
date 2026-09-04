@@ -8,18 +8,47 @@
 
     <title>Task & Project Tracker</title>
 </head>
-<body style="padding: 20px; font-family: sans-serif;">
-<h2>Task & Project Tracker</h2>
+<body style="padding: 20px; font-family: sans-serif; background: #f7f9fc; color: #1f2937; margin: 0;">
+  <div style="max-width: 900px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <h2 style="margin: 0;">Task & Project Tracker</h2>
 
-<button type="button" style="margin-bottom:16px;padding:10px 18px;border:none;border-radius:6px;background:#2c7be5;color:white;font-size:14px;cursor:pointer;">
-  Log In
-</button>
+      <img id="profileImage"
+           src="https://sweng861-bucket.s3.us-east-1.amazonaws.com/Self-Portrait.jpg"
+           alt="Profile"
+           style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid #dfe7f5; display: none;">
+    </div>
 
-<img src="https://sweng861-bucket.s3.us-east-1.amazonaws.com/Self-Portrait.jpg"
-     alt="Self Portrait"
-     style="width:300px;max-width:100%;height:auto;border-radius:8px;"
-     width="300" loading="lazy">
+    <div id="authPanel" style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px 24px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+      <div id="status" style="font-size: 14px; color: #4b5563; margin-bottom: 18px;">Checking sign-in status...</div>
 
-<script src="scripts.js"></script>
+      <div id="loginSection">
+        <button id="loginButton" type="button" style="padding: 12px 28px; border:none; border-radius: 8px; background:#2c7be5; color:white; font-size: 15px; font-weight: 600; cursor:pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.12);">
+          Log in with Google
+        </button>
+      </div>
+
+      <div id="userSection" style="display: none;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
+          <img id="userAvatar" src="" alt="User avatar" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid #dfe7f5;">
+          <div style="text-align: left;">
+            <div style="font-size: 28px; font-weight: 700; color: #111827;" id="userName">User</div>
+            <div id="userEmail" style="color: #4b5563; font-size: 15px; margin-top: 4px;">email@example.com</div>
+          </div>
+        </div>
+
+        <div style="padding: 16px 18px; background: #eef6ff; border: 1px solid #dbeafe; border-radius: 8px; color: #1e3a8a; font-weight: 600;">
+          Login successful — Welcome to Campus Scheduler
+        </div>
+      </div>
+    </div>
+
+    <img src="https://sweng861-bucket.s3.us-east-1.amazonaws.com/Self-Portrait.jpg"
+         alt="Self Portrait"
+         style="width:220px;max-width:100%;height:auto;border-radius:8px; display:block; margin: 28px auto 0; opacity: 0.9;"
+         width="220" loading="lazy">
+  </div>
+
+  <script src="scripts.js"></script>
 </body>
 </html>
