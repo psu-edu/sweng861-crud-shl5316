@@ -32,6 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(restAuthenticationEntryPoint()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/health", "/error", "/oauth2/**", "/login/oauth2/**").permitAll()
                 .anyRequest().authenticated()
@@ -49,6 +50,19 @@ public class SecurityConfig {
             );
 
         return http.build();
+    }
+
+    @Bean
+    public org.springframework.security.web.AuthenticationEntryPoint restAuthenticationEntryPoint() {
+        return (request, response, authException) -> {
+            String path = request.getRequestURI();
+            if (path != null && path.startsWith("/api/")) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+            } else {
+                // default behavior for non-API requests: redirect to login (allow OAuth flow)
+                response.sendRedirect("/oauth2/authorization/google");
+            }
+        };
     }
 
     @Bean
