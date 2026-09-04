@@ -35,7 +35,10 @@ public class SecurityConfig {
                 .successHandler(successHandler())
             )
             .logout(logout -> logout
+                .logoutUrl("/logout")
                 .logoutSuccessUrl(FRONTEND_URL)
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
                 .permitAll()
             );
 
