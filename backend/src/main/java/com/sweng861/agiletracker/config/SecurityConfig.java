@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     private static final String FRONTEND_URL =
-            "https://sweng861-bucket.s3.us-east-1.amazonaws.com/index.html";
+            "http://localhost:8080";
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
@@ -57,7 +57,11 @@ public class SecurityConfig {
         return (request, response, authException) -> {
             String path = request.getRequestURI();
             if (path != null && path.startsWith("/api/")) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json;charset=UTF-8");
+                String body = "{\"error\":\"Unauthorized\"}";
+                response.getWriter().write(body);
+                response.getWriter().flush();
             } else {
                 // default behavior for non-API requests: redirect to login (allow OAuth flow)
                 response.sendRedirect("/oauth2/authorization/google");
