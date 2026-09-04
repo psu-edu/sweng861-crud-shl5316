@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.DS_Store
+backend/.DS_Store
+backend/src/.DS_Store
