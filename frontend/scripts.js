@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   const BACKEND_URL = 'http://localhost:8080';
   const loginButton = document.getElementById('loginButton');
+  const logoutButton = document.getElementById('logoutButton');
   const statusEl = document.getElementById('status');
   const loginSection = document.getElementById('loginSection');
   const userSection = document.getElementById('userSection');
@@ -15,20 +16,35 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function () {
+      fetch(BACKEND_URL + '/logout', {
+        method: 'POST',
+        credentials: 'include'
+      }).then(function () {
+        window.location.reload();
+      });
+    });
+  }
+
+  function setDisplay(el, val) { if (el) el.style.display = val; }
+  function setSrc(el, src) { if (el) el.src = src; }
+
   function renderLoggedIn(user) {
-    statusEl.textContent = 'Signed in successfully';
-    loginSection.style.display = 'none';
-    userSection.style.display = 'block';
+    if (statusEl) statusEl.textContent = 'Signed in successfully';
+    setDisplay(loginSection, 'none');
+    setDisplay(userSection, 'block');
+    setDisplay(logoutButton, 'inline-block');
 
     const name = user.name || 'Google User';
     const email = user.email || 'No email provided';
     const avatar = user.picture || 'https://sweng861-bucket.s3.us-east-1.amazonaws.com/Self-Portrait.jpg';
 
-    userName.textContent = name;
-    userEmail.textContent = email;
-    userAvatar.src = avatar;
-    profileImage.src = avatar;
-    profileImage.style.display = 'block';
+    if (userName) userName.textContent = name;
+    if (userEmail) userEmail.textContent = email;
+    setSrc(userAvatar, avatar);
+    setSrc(profileImage, avatar);
+    setDisplay(profileImage, 'block');
   }
 
   fetch(BACKEND_URL + '/api/user', {
@@ -45,13 +61,14 @@ document.addEventListener('DOMContentLoaded', function () {
       if (data.authenticated) {
         renderLoggedIn(data);
       } else {
-        statusEl.textContent = 'Not logged in';
+        if (statusEl) statusEl.textContent = 'Not logged in';
       }
     })
     .catch(function () {
-      statusEl.textContent = 'Not logged in';
-      loginSection.style.display = 'block';
-      userSection.style.display = 'none';
-      profileImage.style.display = 'none';
+      if (statusEl) statusEl.textContent = 'Not logged in';
+      setDisplay(loginSection, 'block');
+      setDisplay(userSection, 'none');
+      setDisplay(profileImage, 'none');
+      setDisplay(logoutButton, 'none');
     });
 });
