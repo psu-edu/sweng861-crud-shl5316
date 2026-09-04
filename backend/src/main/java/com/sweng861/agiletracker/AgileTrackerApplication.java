@@ -19,8 +19,12 @@ public class AgileTrackerApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000", "http://localhost:8000")
-						.allowedMethods("GET");
+						.allowedOrigins(
+								"http://localhost:3000",
+								"http://localhost:8000",
+								"https://sweng861-bucket.s3.us-east-1.amazonaws.com")
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+						.allowCredentials(true);
 			}
 		};
 	}
