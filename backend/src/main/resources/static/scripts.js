@@ -18,12 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (logoutButton) {
     logoutButton.addEventListener('click', function () {
-      fetch(BACKEND_URL + '/logout', {
-        method: 'POST',
-        credentials: 'include'
-      }).then(function () {
-        window.location.reload();
-      });
+      // Use navigation to /logout so the browser follows redirects normally and avoids CORS errors
+      window.location.href = BACKEND_URL + '/logout';
     });
   }
 
