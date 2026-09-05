@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.util.Arrays;
 
@@ -64,7 +65,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public org.springframework.security.web.AuthenticationEntryPoint restAuthenticationEntryPoint() {
+    public AuthenticationEntryPoint restAuthenticationEntryPoint() {
         return (request, response, authException) -> {
             String path = request.getRequestURI();
             if (path != null && path.startsWith("/api/")) {
