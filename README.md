@@ -21,6 +21,22 @@
 * **Build System:** Apache Maven managed via `pom.xml` alongside the Maven wrapper scripts
 * **Cloud Storage:** Amazon S3
 
+## Authentication Strategy
+**Option A** -  Social Login (B2C) was selected for Week 2 Assignment. The decision was to leverage OIDC with Google as
+the application can authenticate the user and ask for permission to view/edit their calendar at the exact same time.
+This decision was driven by the need for a user-friendly and quick sign-in feature without managing passwords. 
+In addition, my personal project will be building a campus scheduler service, aligning with the suggestion that social
+login is best for simple student-facing tools.  
+
+#### Short description of authentication flow:
+The user clicks 'Log in with Google' and grants profile access. Google then redirects back to our backend callback 
+with an authorization code, which the server trades for tokens, synchronizes the user record, and issues a session JWT.
+
+#### Simple flow diagram:
+Client → Login button → Google Identity Provider → User Consent → Redirect to Backend Callback → Backend 
+→ Token exchange → DB User Sync → Protected API
+
+
 ---
 ## Getting Started
 
