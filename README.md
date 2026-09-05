@@ -27,16 +27,21 @@ the application can authenticate the user and ask for permission to view/edit th
 This decision was driven by the need for a user-friendly and quick sign-in feature without managing passwords. 
 In addition, my personal project will be building a campus scheduler service, aligning with the suggestion that social
 login is best for simple student-facing tools.  
+---
+### Authentication Flow
+The user clicks 'Log in with Google' and grants profile access. Google then redirects back to our backend callback with an authorization code. The server trades this code for access tokens, synchronizes the user record in the database, and issues a secure session JWT.
 
-#### Short description of authentication flow:
-The user clicks 'Log in with Google' and grants profile access. Google then redirects back to our backend callback 
-with an authorization code, which the server trades for tokens, synchronizes the user record, and issues a session JWT.
-
-#### Simple flow diagram:
+#### Simple Flow Diagram:
 Client → Login button → Google Identity Provider → User Consent → Redirect to Backend Callback → Backend 
 → Token exchange → DB User Sync → Protected API
+---
+### Protected Endpoint
+**Endpoint:** `GET /api/hello`
 
-#### OWASP Practices Applied:
+`SecurityConfig` enforces authentication for all `/api/**` routes. Unauthenticated requests are intercepted by a custom entry point and immediately rejected with a `401 Unauthorized` status. 
+The controller reads the authenticated user's session via `@AuthenticationPrincipal OAuth2User`. This then safely passes the user's Google profile directly into the controller logic to produce a response.
+
+### OWASP Practices Applied:
 * **Secure Token Storage:** Tokens are stored securely in the backend, not in the client.
 * **HTTPS Enforcement:** All communications are over HTTPS to protect data in transit.
 * **Input Validation:** All user inputs are validated to prevent injection attacks.
