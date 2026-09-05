@@ -36,6 +36,11 @@ with an authorization code, which the server trades for tokens, synchronizes the
 Client → Login button → Google Identity Provider → User Consent → Redirect to Backend Callback → Backend 
 → Token exchange → DB User Sync → Protected API
 
+#### OWASP Practices Applied:
+* **Secure Token Storage:** Tokens are stored securely in the backend, not in the client.
+* **HTTPS Enforcement:** All communications are over HTTPS to protect data in transit.
+* **Input Validation:** All user inputs are validated to prevent injection attacks.
+* **Authentication:** The application uses OAuth 2.0 and OpenID Connect for secure authentication.
 
 ---
 ## Getting Started
