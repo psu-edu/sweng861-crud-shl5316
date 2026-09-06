@@ -115,7 +115,7 @@ The backend uses Postgres and can be run in Docker:
 docker run -d --name campus-scheduler-db -e POSTGRES_DB=campus_scheduler -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:16-alpine 
 ```
 
-### 7. Quick verification
+### 7. Quick Verification
 With backend on 8080:
 ```bash
 curl -sS http://localhost:8080/health
@@ -132,7 +132,4 @@ Finally, verify the frontend is running:
 
 Open `http://localhost:8000`, sign in with Google, and confirm `/api/user` shows as authenticated.
 
-### Notes
-- Prefer using the Maven wrapper included in `backend/` to ensure reproducible builds across machines.
-- If you prefer system Maven, replace `./backend/mvnw` with `mvn -f backend` (Windows: `mvn -f backend`).
-- If serving the frontend from S3 (HTTPS), ensure your backend CORS and S3 CORS include the deployed origin to avoid browser CORS errors.
+
