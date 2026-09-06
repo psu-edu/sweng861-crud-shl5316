@@ -132,4 +132,5 @@ Finally, verify the frontend is running:
 
 Open `http://localhost:8000`, sign in with Google, and confirm `/api/user` shows as authenticated.
 
-
+## Bonus Features
+* **Rate Limiting & Logging** - Implemented a security filter agaisnt the client IP address and enforces a rate limit to prevent abuse. Excess traffic automatically triggers an SLF4J warning log and returns 429 Too Many Requests.
