@@ -29,11 +29,13 @@ In addition, my personal project will be building a campus scheduler service, al
 login is best for simple student-facing tools.  
 ---
 ### Authentication Flow
-The user clicks 'Log in with Google' and grants profile access. Google then redirects back to our backend callback with an authorization code. The server trades this code for access tokens, synchronizes the user record in the database, and issues a secure session JWT.
+The user clicks 'Log in with Google' and grants profile access. Google then redirects back to our backend callback with
+an authorization code. The server trades this code for access tokens, synchronizes the user record in the database, 
+and establishes an authenticated server session (cookie) for the user.
 
 #### Simple Flow Diagram:
 Client → Login button → Google Identity Provider → User Consent → Redirect to Backend Callback → Backend 
-→ Token exchange → DB User Sync → Protected API
+→ Token Exchange → DB User Sync → Authenticated Session → Protected API
 ---
 ### Protected Endpoint
 **Endpoint:** `GET /api/hello`
@@ -107,12 +109,27 @@ Optional: `FRONTEND_URL` (default `http://localhost:8000`) controls the post-log
 
 Opening `frontend/index.html` as a file:// URL will not work for login (cookies and CORS).
 
-### 6. Quick verification
-With backend on 8080 and frontend on 8000:
+### 6. Postgres Database
+The backend uses Postgres and can be run in Docker:
+```bash
+docker run -d --name campus-scheduler-db -e POSTGRES_DB=campus_scheduler -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:16-alpine 
+```
+
+### 7. Quick verification
+With backend on 8080:
 ```bash
 curl -sS http://localhost:8080/health
 # expected: { "status": "ok" }
 ```
+
+Docker verification:
+```bash
+docker ps
+# expected: Table showing campus-scheduler-db running
+```
+
+Finally, verify the frontend is running:
+
 Open `http://localhost:8000`, sign in with Google, and confirm `/api/user` shows as authenticated.
 
 ### Notes
