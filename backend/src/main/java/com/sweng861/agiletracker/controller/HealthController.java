@@ -1,4 +1,4 @@
-package com.sweng861.agiletracker;
+package com.sweng861.agiletracker.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
