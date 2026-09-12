@@ -56,7 +56,12 @@ public class SecurityConfig {
             // Define public vs. protected route access rules
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                        "/health", "/error", "/oauth2/**", "/login/oauth2/**", "/logout"
+                        "/health",
+                        "/error",
+                        "/oauth2/**",
+                        "/login/oauth2/**",
+                        "/logout",
+                        "/api/breeds/**"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
