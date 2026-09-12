@@ -1,0 +1,134 @@
+openapi: 3.0.3
+info:
+  title: Agile Tracker API
+  description: RESTful API for managing Agile tasks.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /api/tasks:
+    get:
+      summary: Get all tasks
+      description: Retrieves a list of all tasks in the database.
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: A list of tasks.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+
+    post:
+      summary: Create a new task
+      description: Saves a new task to the database.
+      tags:
+        - Tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskInput'
+      responses:
+        '200':
+          description: Task successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+
+  /api/tasks/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The ID of the task
+        schema:
+          type: integer
+          format: int64
+
+    get:
+      summary: Get a task by ID
+      description: Retrieves a specific task using its database ID.
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: Successfully retrieved the task.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: Task not found.
+
+    put:
+      summary: Update an existing task
+      description: Updates the title, description, and completion status of an existing task.
+      tags:
+        - Tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskInput'
+      responses:
+        '200':
+          description: Task successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: Task not found.
+
+    delete:
+      summary: Delete a task
+      description: Removes a task from the database by its ID.
+      tags:
+        - Tasks
+      responses:
+        '204':
+          description: Task successfully deleted.
+        '404':
+          description: Task not found.
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    TaskInput:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
