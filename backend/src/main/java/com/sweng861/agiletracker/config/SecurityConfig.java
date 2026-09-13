@@ -45,6 +45,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            // Force all traffic to use HTTPS (New syntax)
+            .redirectToHttps(Customizer.withDefaults())
             // Enforce IP-based rate limiting and log suspicious traffic patterns
             .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
             // Configure cross-origin resource sharing for the S3 frontend
