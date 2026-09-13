@@ -1,5 +1,6 @@
 package com.sweng861.agiletracker.controller;
 
+import com.sweng861.agiletracker.exception.ResourceNotFoundException;
 import com.sweng861.agiletracker.model.Breed;
 import com.sweng861.agiletracker.repository.BreedRepository;
 import com.sweng861.agiletracker.service.DogApiService;
@@ -14,11 +15,14 @@ import java.util.List;
 @RequestMapping("/api")
 public class DogController {
 
-    @Autowired
-    private BreedRepository breedRepository;
+    private final BreedRepository breedRepository;
+    private final DogApiService dogApiService;
 
     @Autowired
-    private DogApiService dogApiService;
+    public DogController(BreedRepository breedRepository, DogApiService dogApiService) {
+        this.breedRepository = breedRepository;
+        this.dogApiService = dogApiService;
+    }
 
     // Fetch from Dog API
     @PostMapping("/sync")
@@ -35,10 +39,9 @@ public class DogController {
 
     // READ one
     @GetMapping("/breeds/{id}")
-    public ResponseEntity<Breed> getBreedById(@PathVariable String id) {
+    public Breed getBreedById(@PathVariable String id) {
         return breedRepository.findById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Breed not found with id " + id));
     }
 
     // CREATE
@@ -49,21 +52,23 @@ public class DogController {
 
     // UPDATE
     @PutMapping("/breeds/{id}")
-    public ResponseEntity<Breed> updateBreed(@PathVariable String id, @Valid @RequestBody Breed breedDetails) {
-        return breedRepository.findById(id)
-            .map(breed -> {
-                breed.setName(breedDetails.getName());
-                breed.setDescription(breedDetails.getDescription());
-                breed.setEnergy(breedDetails.getEnergy());
-                return breedRepository.save(breed);
-            })
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
+    public Breed updateBreed(@PathVariable String id, @Valid @RequestBody Breed breedDetails) {
+        Breed existingBreed = breedRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Breed not found with id " + id));
+
+        existingBreed.setName(breedDetails.getName());
+        existingBreed.setDescription(breedDetails.getDescription());
+        existingBreed.setEnergy(breedDetails.getEnergy());
+
+        return breedRepository.save(existingBreed);
     }
 
     // DELETE
     @DeleteMapping("/breeds/{id}")
     public ResponseEntity<Void> deleteBreed(@PathVariable String id) {
+        if (!breedRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Breed not found with id " + id);
+        }
         breedRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
